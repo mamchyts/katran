@@ -61,7 +61,7 @@ $config['db']['charset'] = 'UTF8';
 /**
  * Mail setting
  */
-$config['mail']['return_path']      = 'mamchyts@gmail.com';
+$config['mail']['return_path']      = 'esphpdev@gmail.com';
 $config['mail']['return_path_name'] = 'No repty';
 $config['mail']['smtp'] = array(
     'host'      => 'smtp.gmail.com',
@@ -69,7 +69,7 @@ $config['mail']['smtp'] = array(
     'helo'      => $config['domain'],
     'auth'      => true,
     'secure'    => 'tls',
-    'user'      => 'mamchyts@gmail.com',
+    'user'      => 'esphpdev@gmail.com',
     'pass'      => '',
     'timeout'   => 5,
 );
