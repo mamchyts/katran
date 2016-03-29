@@ -1,0 +1,3 @@
+User-agent: *
+Host: photo.katran.by
+Sitemap: http://photo.katran.by/sitemap.xml
