@@ -8,6 +8,7 @@
   "moduleType": [],
   "license": "MIT",
   "homepage": "",
+  "directory": "bower_components",
   "dependencies": {
     "materialize": "*",
     "tinymce": "4.*",

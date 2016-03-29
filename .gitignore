@@ -5,8 +5,7 @@
 /app/config/server.php
 /app/logs/*
 /web/files/tmp/*
-/web/img/slideshow
-/web/img/portfolio
+/web/img/slideshow/*
 /web/js/bower_components/*
 
 !.gitkeep
