@@ -1,0 +1,161 @@
+
+/******* START:  fade() function *******/
+#fade, .fade {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background-color: #000000;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+    z-index: 9999;
+}
+    .smallPreLoader {
+        margin: 0 auto;
+        width: 40px;
+        height: 40px;
+        position: fixed;
+    }
+/******* FINISH: fade() function *******/
+
+
+/******* START:  fileUpload *******/
+.file-upload-block{
+}
+    .file-upload-block__list, .file-upload-block__process{
+        max-height: 400px;
+        overflow: auto;
+        padding-bottom: 1em !important;
+        padding-top: 2em !important;
+    }
+        .fu-item{
+            color: #434a54;
+            overflow: hidden;
+            background-color: #e0f2f1;
+            clear: both;
+            margin-bottom: 1em;
+            padding: 0.5em;
+        }
+            .fu-item__image{
+                float: left;
+                line-height: 0px;
+                width: 14%;
+            }
+            .fu-item__info{
+                width: 86%;
+                float: left;
+                position: relative;
+            }
+                .fu-item-info__title{
+                    font-size: 0.8em;
+                    max-height: 1.5em;
+                    line-height: 1.5em;
+                    overflow: hidden;
+                }
+                .fu-item-info__info{
+                    font-size: 0.8em;
+                }
+                .fu-item-info__progress{
+                    margin: 0px;
+                    margin-top: 0.5em;
+                }
+                .fu-item-info__abort{
+                    position: absolute;
+                    top: -0.3em;
+                    right: -0.2em;
+                    cursor: pointer;
+                    font-weight: bold;
+                    color: #EE6E73;
+                }
+        .file-upload-block-list__item{
+            float: left;
+            position: relative;
+            cursor: pointer;
+        }
+        #slideshow .file-upload-block-list__item{
+            cursor: default;
+        }
+            .file-upload-block-list__item--active:before{
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                content: ' ';
+                margin: -3% 0 0 -3%;
+                background-color: #80cbc4;
+            }
+            .file-upload-block-list-item{
+                float: left;
+                position: relative;
+                padding: 0.3em;
+                line-height: 0px;
+                margin-right: 1em;
+                margin-bottom: 1em;
+            }
+                .file-upload-block-list-item__image{
+                    max-width: 14em;
+                    max-height: 9em;
+                }
+                .file-upload-block-list-item__delete{
+                    background-color: #FCFCFC;
+                    position: absolute;
+                    top: -0.4em;
+                    right: -0.4em;
+                    cursor: pointer;
+                    font-weight: bold;
+                    color: #EE6E73;
+                    padding: 0.1em;
+                    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+                    border-radius: 20px;
+                }
+/******* FINISH: fileUpload *******/
+
+
+/******* START:  global changes *******/
+pre{
+    text-align: left;
+}
+.clear{
+    clear: both;
+    height: 0px;
+}
+.noDisplay{
+    display: none;
+}
+/******* FINISH: global changes *******/
+
+
+
+/******* START:  debug block *******/
+.debug-stat-block{
+    font-size: 12px;
+}
+    .debug-stat-block a#debug_show{
+        text-decoration: underline;
+        margin-bottom: 1em;
+        display:block;
+    }
+        #main_debug_log{
+            background-color: #ffffff;
+            color: #383232;
+        }
+            #main_debug_log table td, #main_debug_log table th{
+                padding: 5px 5px;
+            }
+/******* FINISH: debug block *******/
+
+
+/******* START:  *******/
+/******* FINISH: *******/
+
+
+/******* START:  *******/
+/******* FINISH: *******/
+
+
+/******* START:  *******/
+/******* FINISH: *******/
+
+/******* START:  *******/
+/******* FINISH: *******/

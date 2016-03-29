@@ -1,0 +1,36 @@
+/******* START:  displays resolutions *******/
+@media (min-width: 200px) {
+    .container, .page-wrapper{
+        width: 100%;
+        margin: 0 auto;
+    }
+}
+@media (min-width: 320px) {
+}
+@media (min-width: 500px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 992px) {
+}
+@media (min-width: 1200px) {
+    .container, .page-wrapper{
+        max-width: 1920px;
+    }
+}
+/******* FINISH: displays resolutions *******/
+
+
+
+/******* START:  *******/
+/******* FINISH: *******/
+
+
+/******* START:  *******/
+/******* FINISH: *******/
+
+
+/******* START:  *******/
+/******* FINISH: *******/
+
+

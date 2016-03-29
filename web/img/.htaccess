@@ -1,0 +1,15 @@
+Options -Indexes
+Allow from all
+
+#  RewriteEngine   On
+#  RewriteBase /img/
+#  RewriteCond %{SCRIPT_FILENAME} -f
+#  
+#  # add watermark to image like: ./kitchen/1/1.png or ./material/2/2.png
+#  RewriteRule ^(([a-zA-z]*)/(\d*)/.*\.(gif|jpeg|jpg|png))$ watermark.php?path=$1
+#  
+#  # add watermark to image like: ./kitchen/1/400x250/1.png
+#  RewriteRule ^(([a-zA-z]*)/(\d*)/([0-9x]*)/.*\.(gif|jpeg|jpg|png))$ watermark.php?path=$1
+#  
+#  # add watermark to image like: ./slideshow/1.png
+#  RewriteRule ^(([a-zA-z]*)/.*\.(gif|jpeg|jpg|png))$ watermark.php?path=$1

@@ -1,0 +1,7 @@
+# set php flag/value
+php_flag upload_max_filesize    10M
+php_flag session.use_only_cookies   on
+php_value max_input_vars    200000
+
+Allow from all
+RewriteEngine  Off

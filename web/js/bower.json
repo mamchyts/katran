@@ -1,0 +1,20 @@
+{
+  "name": "Web js part",
+  "authors": [
+    "DNM <mamchyts@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "dependencies": {
+    "materialize": "*",
+    "tinymce": "4.*",
+    "fileapi": "2.*",
+    "jquery": "2.*",
+    "jquery.nicescroll": "3.*",
+    "lightbox2": "2.*",
+    "leaflet": "0.7.*"
+  }
+}
