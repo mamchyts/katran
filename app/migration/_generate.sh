@@ -1,0 +1,1 @@
+php ../../vendor/robmorgan/phinx/bin/phinx create -c phinx.php -t MyMigration.php Migration$(ls ./migrations | wc -l)

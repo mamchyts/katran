@@ -1,0 +1,13 @@
+/vendor/*
+/composer.phar
+/composer.lock
+
+/app/config/server.php
+/app/logs/*
+/web/files/tmp/*
+/web/img/slideshow
+/web/img/portfolio
+/web/js/bower_components/*
+
+!.gitkeep
+!/vendor/katran

@@ -1,0 +1,27 @@
+{
+    "name": "Katran framework",
+    "description": "Base framework code",
+    "homepage": "http://katran.by/",
+    "authors": [
+        {
+            "name": "Dmitry Mamchyts",
+            "email": "mamchyts@gmail.com",
+            "homepage": "http://katran.by/"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "mamchyts/katran-core": "dev-master"
+    },
+    "repositories":[
+        {
+            "type":"git",
+            "url":"https://github.com/mamchyts/katran-core"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Site\\": "src/"
+        }
+    }
+}

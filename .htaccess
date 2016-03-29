@@ -1,0 +1,27 @@
+# set php flag/value
+php_flag upload_max_filesize    10M
+php_flag session.use_only_cookies   on
+php_value max_input_vars    200000
+
+Allow from all
+RewriteEngine  On
+RewriteCond    %{HTTP_HOST} ^www\.photo.katran\.by$
+RewriteRule    ^(.*)$ http://photo.katran.by/$1 [R=301,L]
+RewriteBase    /
+
+
+# admin and others areas
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)\.(gif|jpg|png|ico|jpeg|css|js|swf|woff2|woff|ttf|eot|svg|html)$ /web/$1.$2 [L,NC]
+
+
+# admin and others areas
+RewriteRule ^admin(\/*)$  /web/admin/index.php [QSA]
+
+
+# rules
+RewriteRule ^([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)(\/*)$  /web/index.php?controller=$1&action=item_view&category=$2&item=$3 [QSA]
+RewriteRule ^([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)(\/*)$  /web/index.php?controller=$1&action=category_view&category=$2 [QSA]
+RewriteRule ^([a-zA-Z0-9-_]+)(\/*)$  /web/index.php?alias=$1 [QSA]
+RewriteRule ^(\/*)$  /web/index.php?alias=index [QSA]
