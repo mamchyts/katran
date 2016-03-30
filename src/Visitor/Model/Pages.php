@@ -24,7 +24,7 @@ class Pages extends DbImproved
      */
     public function __construct()
     {
-        $this->table = 'pages';
+        parent::setTable('pages');
     }
 
 
@@ -36,8 +36,12 @@ class Pages extends DbImproved
      * @version 2013-03-24
      * @access  public
      */
-    public function getPageMetaData($url = FALSE, $table = 'pages', $key = 'url')
+    public function getPageMetaData($url = FALSE, $table = null, $key = 'url')
     {
+        // set table if need
+        if(empty($table))
+            $table = parent::getTable();
+
         if((is_string($url) && (trim($url) !== '')) || ($table != 'pages')){
             $urlId = trim($url);
         }
@@ -75,7 +79,7 @@ class Pages extends DbImproved
             $pageUrl = $url->getParam('page_url');
         }
 
-        $sql = 'SELECT html FROM `'.$this->table.'` WHERE `url` = ?';
+        $sql = 'SELECT html FROM `'.parent::getTable().'` WHERE `url` = ?';
         return $this->getField($sql, [$pageUrl]);
     }
 }

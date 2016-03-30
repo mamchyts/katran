@@ -23,6 +23,6 @@ class Accounts extends DbImproved
      */
     public function __construct()
     {
-        $this->table = 'accounts';
+        parent::setTable('accounts');
     }
 }
