@@ -5,8 +5,8 @@ php_value max_input_vars    200000
 
 Allow from all
 RewriteEngine  On
-RewriteCond    %{HTTP_HOST} ^www\.photo.katran\.by$
-RewriteRule    ^(.*)$ http://photo.katran.by/$1 [R=301,L]
+RewriteCond    %{HTTP_HOST} ^www\.test.katran\.by$
+RewriteRule    ^(.*)$ http://test.katran.by/$1 [R=301,L]
 RewriteBase    /
 
 

@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `name` char(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `tel` char(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `note` varchar(10000) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `cdate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `cdate` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `meta_title` char(250) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `meta_keywords` char(250) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `meta_description` char(250) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `cdate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `cdate` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `url` (`url`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
