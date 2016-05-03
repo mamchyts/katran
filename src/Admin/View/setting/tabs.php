@@ -22,8 +22,8 @@
                         <?php foreach ($tabs['slideshow'] as $m):?>
                             <div class="file-upload-block-list__item">
                                 <div class="file-upload-block-list-item z-depth-1">
-                                    <input type="hidden" name="data[images][]" value="<?=$m?>">
-                                    <img class="file-upload-block-list-item__image" src="<?=$m?>" alt="<?=$m?>">
+                                    <input type="hidden" name="data[images][]" value="<?=$m['origin']?>">
+                                    <img class="file-upload-block-list-item__image" src="<?=$m['thumbnail']?>">
                                     <div class="file-upload-block-list-item__delete" onclick="deleteImage(this)"><i class="material-icons md-18">&#xe5cd;</i></div>
                                 </div>
                             </div>

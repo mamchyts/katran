@@ -1,1 +1,0 @@
-<action controller="content" action="home"></action>

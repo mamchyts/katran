@@ -11,7 +11,7 @@
         <link rel="shortcut icon" href="/favicon.ico"/>
 
         <!-- meta -->
-        <?php $meta = \Katran\Database\Db::getModel('Site\Visitor\Model\Pages')->getPageMetaData();?>
+        <?php $meta = \Katran\Database\Db::getModel(new Common\Model\Pages)->getPageMetaData();?>
         <title><?=(!empty($meta['meta_title']))?$meta['meta_title']:'';?></title>
         <meta name="keywords" content="<?=(!empty($meta['meta_keywords']))?$meta['meta_keywords']:'';?>"/>
         <meta name="description" content="<?=(!empty($meta['meta_description']))?$meta['meta_description']:'';?>"/>

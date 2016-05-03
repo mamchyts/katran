@@ -1,22 +1,23 @@
 <?php
 /**
- * The file contains class Content()
+ * The file contains class Page()
  */
-namespace Site\Visitor\Controller;
+namespace Visitor\Controller;
 
-use Katran\Controller;
 use Katran\Request;
 use Katran\View;
 use Katran\Helper;
+use Katran\Controller;
 use Katran\Database\Db;
 use Katran\Library\Pager;
 use Katran\Library\Sorter;
 use Katran\Url;
+use Common\Model as m;
 
 /**
- * Content controller
+ * Page controller
  */
-class Content extends Controller
+class Page extends Controller
 {
     /**
      * [defaultAction description]
@@ -28,7 +29,8 @@ class Content extends Controller
         // get page information, if page exists
         $url = new Url();
         $alias = $url->getParam('alias');
-        $page = Db::getModel('Site\Visitor\Model\Pages')->find($alias, 'url');
+        $dbPages = Db::getModel(new m\Pages);
+        $page = $dbPages->find($alias, 'url');
 
         if(empty($page) || ($page['status'] !== 'active'))
             $this->redirectPage('/404');
@@ -36,7 +38,7 @@ class Content extends Controller
         // set active menu
         Helper::_menu($alias);
 
-        $view = new View('content/default.php');
+        $view = new View('./page/default.php');
         $view->setVar('page', $page);
         return $view;
     }
@@ -51,7 +53,7 @@ class Content extends Controller
     {
         // set active menu
         Helper::_menu('home');
-        $view = new View('content/page_home.php');
+        $view = new View('./page/home.php');
         return $view;
     }
 
@@ -65,7 +67,7 @@ class Content extends Controller
     {
         // set active menu
         Helper::_menu('contacts');
-        $view = new View('content/page_contacts.php');
+        $view = new View('./page/contacts.php');
         return $view;
     }
 }

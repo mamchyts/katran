@@ -12,7 +12,7 @@
     </div>
 
     <?php if(in_array($_SESSION['admin']['role'], array('admin'))):?>
-        <a href="/admin?controller=content&amp;action=view&amp;id=new" class="waves-effect waves-light btn">Добавить новую страницу</a>
+        <a href="/admin?controller=page&amp;action=view&amp;id=new" class="waves-effect waves-light btn">Добавить новую страницу</a>
     <?php endif;?>
 
     <table class="striped highlight margin-list-table" cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -25,8 +25,8 @@
                 <th width="60"><?=$sorter->getHtml('id', 'ID')?></th>
                 <th><?=$sorter->getHtml('title', 'Название')?></th>
                 <th><?=$sorter->getHtml('url', 'Url')?></th>
-                <th><?=$sorter->getHtml('descr', 'Краткое описание')?></th>
-                <th width="90"><?=$sorter->getHtml('status', 'Статус')?></th>
+                <th><?=$sorter->getHtml('status', 'Статус')?></th>
+                <th><?=$sorter->getHtml('descr', 'Описание')?></th>
                 <th width="180"><?=$sorter->getHtml('cdate', 'Дата создания')?></th>
                 <th width="55">&nbsp;</th>
             </tr>
@@ -41,11 +41,11 @@
                     <td><?=$r['id']?></td>
                     <td><?=$r['title']?></td>
                     <td>/<?=$r['url']?></td>
-                    <td><?=\Katran\Helper::_substr(strip_tags($r['descr']), 0, 80)?></td>
-                    <td><?=\Katran\Helper::_cfg('statuses', $r['status'])?></td>
+                    <td><?=$dbPages::getStatus($r['status'])?></td>
+                    <td><?=\Katran\Helper::_substr(strip_tags($r['descr']), 0, 60)?></td>
                     <td><?=\Katran\Helper::_date($r['cdate'], 'Y-m-d')?></td>
                     <td>
-                        <a href="/admin?controller=content&amp;action=view&amp;id=<?=$r['id']?>" class="">ред.</a>
+                        <a href="/admin?controller=page&amp;action=view&amp;id=<?=$r['id']?>" class="">ред.</a>
                     </td>
                 </tr>
             <?php endforeach;?>

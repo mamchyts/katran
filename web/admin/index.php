@@ -7,12 +7,16 @@
 /**
  * Include application
  */
-require_once '../../app/app.php';
+require_once dirname(dirname(__DIR__)).'/app/app.php';
+
+use Katran\Helper;
+use Katran\Model\Accounts as BaseAccounts;
 
 /**
  * Set area
  */
-$app->setArea('admin');
+$app->setArea(BaseAccounts::AREA_ADMIN);
+
 
 /**
  * Run process and show result

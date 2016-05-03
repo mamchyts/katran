@@ -1,7 +1,7 @@
 // on DOM load
 $( document ).ready(function() {
     if($('canvas.error').length){
-        var contentHeight = parseInt($(window).height() - $('header').height() - $('footer').height() - 30);
+        var contentHeight = parseInt($(window).height() - $('nav.top-nav').height() - 40);
         var contentWidth = parseInt($('section.page-content').width());
         $('canvas.error').css('height', contentHeight+'px');
         $('canvas.error').css('width',  contentWidth+'px');
@@ -130,7 +130,7 @@ $( document ).ready(function() {
                     var length = config.length,
                         star,
                         i,
-                        fontSize = canvas.height / 1.2;
+                        fontSize = canvas.height / 5;
 
                     context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -138,9 +138,9 @@ $( document ).ready(function() {
                     context.save();
                     context.font = fontSize + 'px self';
                     context.textAlign='center';
-                    context.strokeStyle = 'rgba(200, 200, 200, .4)';
+                    context.strokeStyle = 'rgba(50, 50, 50, .4)';
                     context.lineWidth = 3;
-                    context.strokeText(config.text, canvas.width/2, (canvas.height)/2+fontSize/3);
+                    context.strokeText(config.text, canvas.width/2, (canvas.height)/2+fontSize/4);
                     context.restore()
 
                     for (i = 0; i < length; i++) {
@@ -208,14 +208,15 @@ $( document ).ready(function() {
         // Init plugin
         $('canvas.error').constellation({
             star: {
-                width: 3
+                width: 3,
+                color: 'rgba(100, 100, 100, 0.5)'
             },
             line: {
                 color: 'rgba(255, 0, 0, 0.7)'
             },
             radius: 200,
             length: 300,
-            text: parseInt(window.location.pathname.substr(1)) || 'Error'
+            text: parseInt(window.location.pathname.substr(1)) || 'ошибка'
         });
     }
 });

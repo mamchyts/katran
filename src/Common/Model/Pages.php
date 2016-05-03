@@ -2,10 +2,11 @@
 /**
  * The file contains class Pages() extends DbImproved()
  */
-namespace Site\Visitor\Model;
+namespace Common\Model;
 
-use Katran\Database\DbImproved;
 use Katran\Url;
+use Katran\Helper;
+use Katran\Database\DbImproved;
 
 /**
  * This class has methods for work with table 'pages'
@@ -15,16 +16,49 @@ use Katran\Url;
  */
 class Pages extends DbImproved
 {
+    // status
+    const STATUS_ACTIVE  = 'active';
+    const STATUS_BLOCKED = 'blocked';
+
     /**
      * Constructor set table
      *
      * @return  void
-     * @version 2013-03-21
+     * @version 2016-03-30
      * @access  public
      */
     public function __construct()
     {
         parent::setTable('pages');
+    }
+
+
+    /**
+     * [getStatusHash description]
+     * @return hash|array
+     */
+    public static function getStatusHash()
+    {
+        static $cache = null;
+        if ($cache === null) {
+            $cache = [
+                self::STATUS_ACTIVE  => 'Активный',
+                self::STATUS_BLOCKED => 'Заблокирован',
+            ];
+        }
+
+        return $cache;
+    }
+
+
+    /**
+     * [getStatus description]
+     * @param  string $key [description]
+     * @return string
+     */
+    public static function getStatus($key = '')
+    {
+        return self::getStatusHash()[$key];
     }
 
 

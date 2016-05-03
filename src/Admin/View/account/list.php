@@ -41,8 +41,8 @@
                     <td><?=$r['id']?></td>
                     <td><?=$r['login']?></td>
                     <td><?=$r['name']?></td>
-                    <td><?=\Katran\Helper::_cfg('statuses', $r['status'])?></td>
-                    <td><?=\Katran\Helper::_cfg('roles', $r['role'])?></td>
+                    <td><?=$dbAccounts::getStatus($r['status'])?></td>
+                    <td><?=$dbAccounts::getRole($r['role'])?></td>
                     <td><?=\Katran\Helper::_date($r['cdate'], 'Y-m-d')?></td>
                     <td>
                         <a href="/admin?controller=account&amp;action=view&amp;id=<?=$r['id']?>" class="">ред.</a>

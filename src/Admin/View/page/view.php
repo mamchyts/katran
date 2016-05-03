@@ -22,7 +22,7 @@
         <div class="row">
             <div class="input-field col s6">
                 <select name="data[status]" class="">
-                    <?=\Katran\Library\Html::createSelect(\Katran\Helper::_cfg('statuses'), isset($row['status'])?$row['status']:'active')?>
+                    <?=\Katran\Library\Html::createSelect($dbPages::getStatusHash(), isset($row['status'])?$row['status']:'active')?>
                 </select>
                 <label>Статус</label>
             </div>
@@ -67,7 +67,7 @@
 
         <div class="row">
             <div class="input-field col s12">
-                <input type="submit" name="submit[content|save]" class="btn btn-primary" value="Сохранить">
+                <input type="submit" name="submit[page|save]" class="btn btn-primary" value="Сохранить">
             </div>
         </div>
     </form>

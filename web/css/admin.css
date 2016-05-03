@@ -27,8 +27,8 @@ ul.side-nav.fixed li.active{
             font-size: 2em;
         }
         ul.side-nav.fixed li a{
-            height: 50px;
-            line-height: 50px;
+            height: 40px;
+            line-height: 40px;
         }
             ul.side-nav.fixed li.logo a{
                 text-align: center;
@@ -48,7 +48,7 @@ ul.side-nav.fixed li.active{
 .main-margin-left{
     margin-left: 200px;
 }
-    .main > .container{
+    .main > .container, .main > .top-nav > .container{
         width: 90%;
         max-width: 1600px;
     }
@@ -60,6 +60,16 @@ ul.side-nav.fixed li.active{
 .page-content{
     margin: 2em 0;
 }
+.red{
+    background-color: #ee6e73 !important;
+}
+.header-shop-title{
+    font-size: 0.6em;
+}
+    .header-shop-title--link{
+        color: #444444;
+        margin-left: 2em;
+    }
 /******* FINISH: layout *******/
 
 
@@ -130,7 +140,7 @@ ul.side-nav.fixed li.active{
 
 /******* START:  other *******/
 .margin-list-table{
-    margin-top: 3em;
+    margin-top: 2em;
 }
 .mce-tinymce.mce-container .mce-wordcount{
     top: inherit;
@@ -160,11 +170,19 @@ td, th {
     margin: -14px 0 0 -10px;
 
 }
+.list-search-block{
+    margin-bottom: 2em;
+}
 /******* FINISH: other *******/
 
 
-/******* START:  *******/
-/******* FINISH: *******/
+/******* START:  btns-block *******/
+.btns-block{
+}
+    .btns-block__btn{
+        margin-right: 1em;
+    }
+/******* FINISH: btns-block *******/
 
 
 /******* START:  *******/

@@ -23,6 +23,7 @@
         <script type="text/javascript" src="/js/bower_components/materialize/dist/js/materialize.js"></script>
         <script type="text/javascript" src="/js/common.js"></script>
         <script type="text/javascript" src="/js/admin.js"></script>
+        <script type="text/javascript" src="/js/error.js"></script>
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -35,22 +36,24 @@
         <?php if(!empty($_SESSION['admin']['id'])):?>
             <!--  START:  MENU  -->
             <header>
-                <ul id="nav-mobile" class="side-nav fixed" style="width: 200px;">
+                <ul id="nav-mobile" class="side-nav fixed">
                     <li class="logo">
                         <a href="/admin">Админка</a>
                     </li>
                     <li class="<?=(\Katran\Helper::_menu('stat', true))?'active':''?>">
                         <a href="/admin" class="waves-effect waves-light">Главная</a>
                     </li>
-                    <li class="<?=(\Katran\Helper::_menu('account', true))?'active':''?>">
-                        <a href="/admin?controller=account&amp;action=list" class="waves-effect waves-light">Пользователи</a>
-                    </li>
-                    <li class="<?=(\Katran\Helper::_menu('content', true))?'active':''?>">
-                        <a href="/admin?controller=content&amp;action=list" class="waves-effect waves-light">Страницы</a>
-                    </li>
-                    <li class="<?=(\Katran\Helper::_menu('setting', true))?'active':''?>">
-                        <a href="/admin?controller=setting&amp;action=tabs" class="waves-effect waves-light">Настройки</a>
-                    </li>
+                    <?php if(in_array($_SESSION['admin']['role'], ['admin'])):?>
+                        <li class="<?=(\Katran\Helper::_menu('account', true))?'active':''?>">
+                            <a href="/admin?controller=account&amp;action=list" class="waves-effect waves-light">Пользователи</a>
+                        </li>
+                        <li class="<?=(\Katran\Helper::_menu('page', true))?'active':''?>">
+                            <a href="/admin?controller=page&amp;action=list" class="waves-effect waves-light">Страницы</a>
+                        </li>
+                        <li class="<?=(\Katran\Helper::_menu('setting', true))?'active':''?>">
+                            <a href="/admin?controller=setting&amp;action=tabs" class="waves-effect waves-light">Настройки</a>
+                        </li>
+                    <?php endif;?>
                     <li>
                         <a href="/admin?controller=account&amp;action=logout" class="waves-effect waves-light">Выход</a>
                     </li>
@@ -66,31 +69,35 @@
                     <a href="javascript:void(0)" data-activates="nav-mobile" class="top-nav waves-effect waves-light circle hide-on-large-only button-collapse">
                         <i class="mdi-navigation-menu"></i>
                     </a>
-                    <div class="nav-wrapper"><a class="page-title"><?=\Katran\Helper::_menu(false, true, true)?></a></div>
+                    <div class="nav-wrapper">
+                        <a class="page-title"><?=\Katran\Helper::_menu(false, true, true)?></a>
+                        <?php if( !empty($_SESSION['admin']['id']) ):?>
+                            <div class="right">
+                                <a class="header-shop-title"><?=$_SESSION['admin']['name']?></a>
+                            </div>
+                        <?php endif;?>
+                    </div>
                 </div>
             </nav>
             <div class="container">
 
                 <!--  START: STATUS MESSAGES  -->
-                <?php $r = new \Katran\Request(); $mess = $r->getMessage();?>
-                <?php if(sizeof($mess) > 0):?>
-                    <section>
-                        <div class="alert-block">
-                            <?php foreach(!empty($mess['error'])?$mess['error']:[] as $e):?>
-                                <div class="alert-block__alert alert-block__alert--danger z-depth-1">
-                                    <?=$e?>
-                                    <i class="material-icons alert-block__clear">&#xe14c;</i>
-                                </div>
-                            <?php endforeach;?>
-                            <?php foreach(!empty($mess['mess'])?$mess['mess']:[] as $m):?>
-                                <div class="alert-block__alert alert-block__alert--success z-depth-1">
-                                    <?=$m?>
-                                    <i class="material-icons alert-block__clear">&#xe14c;</i>
-                                </div>
-                            <?php endforeach;?>
-                        </div>
-                    </section>
-                <?php endif;?>
+                <section>
+                    <div class="alert-block">
+                        <?php foreach(Katran\Library\Flashbag::get(Katran\Library\Flashbag::TYPE_ERROR) as $e):?>
+                            <div class="alert-block__alert alert-block__alert--danger z-depth-1">
+                                <?=$e?>
+                                <i class="material-icons alert-block__clear">&#xe14c;</i>
+                            </div>
+                        <?php endforeach;?>
+                        <?php foreach(Katran\Library\Flashbag::get(Katran\Library\Flashbag::TYPE_INFO) as $m):?>
+                            <div class="alert-block__alert alert-block__alert--success z-depth-1">
+                                <?=$m?>
+                                <i class="material-icons alert-block__clear">&#xe14c;</i>
+                            </div>
+                        <?php endforeach;?>
+                    </div>
+                </section>
                 <!--  END: STATUS MESSAGES  -->
 
                 <section class="page-content">

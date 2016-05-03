@@ -22,7 +22,7 @@
         <div class="row">
             <div class="input-field col s6">
                 <select name="data[role]" class="">
-                    <?=\Katran\Library\Html::createSelect(\Katran\Helper::_cfg('roles'), isset($row['role'])?$row['role']:null)?>
+                    <?=\Katran\Library\Html::createSelect($dbAccounts::getRoleHash(), isset($row['role'])?$row['role']:null)?>
                 </select>
                 <label>Права</label>
             </div>
@@ -31,7 +31,7 @@
         <div class="row">
             <div class="input-field col s6">
                 <select name="data[status]" class="">
-                    <?=\Katran\Library\Html::createSelect(\Katran\Helper::_cfg('statuses'), isset($row['status'])?$row['status']:'active')?>
+                    <?=\Katran\Library\Html::createSelect($dbAccounts::getStatusHash(), isset($row['status'])?$row['status']:'active')?>
                 </select>
                 <label>Статус</label>
             </div>
@@ -39,7 +39,7 @@
         </div>
 
 
-        <?php if(in_array($_SESSION['admin']['role'], array('admin')) || $_SESSION['admin']['id'] == $row['id']):?>
+        <?php if(in_array($_SESSION['admin']['role'], [$dbAccounts::ROLE_ADMIN]) || $_SESSION['admin']['id'] == $row['id']):?>
             <div class="clear" style="height: 2em;"></div>
             <div class="row">
                 <div class="input-field col s6">

@@ -4,6 +4,7 @@ $( document ).ready(function() {
 
     // menu
     $('.button-collapse').sideNav({
+            menuWidth: 200,  // Default is 240
             edge: 'left', // Choose the horizontal origin
             closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
         }
@@ -97,21 +98,5 @@ $( document ).ready(function() {
 });
 
 
-// delete entity
-function deleteEntity(id, entity)
-{
-    if(!confirm('Вы уверены?'))
-        return 0;
 
-    if(!id || !entity)
-        return  Materialize.toast('Заполните входные данные', 4000);
 
-    fade(2, 2);
-    $.ajax({
-        type: 'POST',
-        url: '/admin/?mod=content&act=delete_entity&id='+parseInt(id)+'&entity='+encodeURIComponent(entity),
-        success: function(data){
-            return window.location.reload();
-        }
-    });
-}
