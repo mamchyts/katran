@@ -2,14 +2,14 @@
 /**
  * The file contains class File()
  */
-namespace Site\Admin\Controller;
+namespace Admin\Controller;
 
 use Katran\Controller;
-use Katran\Request;
 use Katran\Helper;
+use Katran\Request;
 use Katran\Library\FileAPI;
 use Katran\Library\FileHelper;
-use Site\Admin\Traits\BulkHelper;
+use Admin\Traits\BulkHelper;
 
 /**
  * File controller
@@ -80,7 +80,7 @@ class File extends Controller
             if(FileHelper::isImage($files['tmp_name'], $files['name'])){
                 if(move_uploaded_file($files['tmp_name'], $filePath)){
                     // set mode for tmp file
-                    chmod($filePath, 0666);
+                    Helper::_chmod($filePath, 0666);
 
                     $size = getimagesize($filePath);
                     $base64 = base64_encode(file_get_contents($filePath));
@@ -116,8 +116,9 @@ class File extends Controller
     public function deleteImagesAction(Request $request)
     {
         $deleted = FALSE;
-        if(trim($request->getString('img'))){
-            $path = Helper::_cfg('path_web').trim($request->getString('img'));
+        $img = trim($request->get('img'));
+        if(!empty($img)){
+            $path = Helper::_cfg('path_web').$img;
             $deleted = $this->_deleteImagesByPath($path);
         }
 

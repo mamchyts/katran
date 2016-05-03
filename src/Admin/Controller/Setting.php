@@ -2,19 +2,19 @@
 /**
  * The file contains class Setting()
  */
-namespace Site\Admin\Controller;
+namespace Admin\Controller;
 
 use Katran\Controller;
-use Katran\Request;
 use Katran\View;
 use Katran\Helper;
+use Katran\Request;
 use Katran\Database\Db;
-use Katran\Url;
 use Katran\Library\Validator;
 use Katran\Library\Pager;
 use Katran\Library\Sorter;
 use Katran\Library\FileHelper;
 use Intervention\Image\ImageManagerStatic;
+use Admin\Model as m;
 
 /**
  * Setting controller
@@ -66,13 +66,17 @@ class Setting extends Controller
     private function _getSlideshowImages()
     {
         $slideshowSizes = Helper::_cfg('image_thumbnails', 'slideshow');
+        $size = array_shift($slideshowSizes);
 
         // get images in $dir
         $images = [];
         foreach (glob(Helper::_cfg('path_web').'/img/slideshow/*') as $im){
             // get only files
             if(is_file($im)){
-                $images[] = '/img/slideshow/'.basename($im);
+                $images[] = [
+                    'origin' => '/img/slideshow/'.basename($im),
+                    'thumbnail' => '/img/slideshow/'.$size[0].'x'.$size[1].'/'.basename($im),
+                ];
             }
         }
 
@@ -89,8 +93,8 @@ class Setting extends Controller
      */
     public function slideshowUpdateAction(Request $request)
     {
-        $images = $request->getArray('data');
-        $images = (!empty($images['images']))?$images['images']:[];
+        $data = $request->getArray('data');
+        $images = !empty($data['images'])?$data['images']:[];
 
         // create dir if it non exist
         $slideshowFolderPath = Helper::_cfg('path_web').'/img/slideshow/';
@@ -134,12 +138,12 @@ class Setting extends Controller
                     $img->reset();
 
                     // set default file mode
-                    chmod($thumbnailPath, Helper::_cfg('filemode', 'file'));
+                    Helper::_chmod($thumbnailPath, Helper::_cfg('filemode', 'file'));
                 }
 
                 // move tmp file into folder (save original image)
                 rename($oldname, $newname);
-                chmod($newname, Helper::_cfg('filemode', 'file'));
+                Helper::_chmod($newname, Helper::_cfg('filemode', 'file'));
             }
         }
 

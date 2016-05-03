@@ -2,12 +2,12 @@
 /**
  * The file contains trait BulkHelper()
  */
-namespace Site\Admin\Traits;
+namespace Admin\Traits;
 
-use Katran\Request;
 use Katran\Helper;
 use Katran\Database\Db;
 use Katran\Url;
+use Katran\Request;
 
 /**
  * Trait
@@ -25,18 +25,29 @@ trait BulkHelper
     {
         $ids = $request->getArray('ids');
         if(sizeof($ids) === 0)
-            $this->forward('/admin/?controller=content&action=list', 'Ничего не выбрано');
+            $this->forward('/admin', 'Ничего не выбрано');
 
         // get table name
-        $controller = trim($request->getString('controller'));
-        if($controller === 'content')
-            $controller = 'page';
+        $body = $request->serverRequest->getQueryParams();
+        $controller = !empty($body['controller'])?trim($body['controller']):'';
 
         // add `s` for model name
-        $modelName = $controller.'s';
+        $model = ucfirst($controller.'s');
+
+        if(class_exists('Common\Model\\'.$model)){
+            $c = 'Common\Model\\'.$model;
+            $obj = new $c;
+        }
+        elseif(class_exists('Admin\Model\\'.$model)){
+            $c = 'Admin\Model\\'.$model;
+            $obj = new $c;
+        }
+        else{
+            $obj = strtolower($model);
+        }
 
         // get DB model
-        $db = Db::getModel('Site\Visitor\Model\\'.ucfirst($modelName));
+        $db = Db::getModel($obj);
 
         $errors = [];
         foreach ($ids as $id) {
@@ -102,6 +113,4 @@ trait BulkHelper
 
         return $deleted;
     }
-
-
 }

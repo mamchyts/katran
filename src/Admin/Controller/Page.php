@@ -1,26 +1,26 @@
 <?php
 /**
- * The file contains class Content()
+ * The file contains class Page()
  */
-namespace Site\Admin\Controller;
+namespace Admin\Controller;
 
 use Katran\Controller;
-use Katran\Request;
 use Katran\View;
 use Katran\Helper;
 use Katran\Database\Db;
 use Katran\Url;
+use Katran\Secure;
+use Katran\Request;
 use Katran\Library\Validator;
 use Katran\Library\Pager;
 use Katran\Library\Sorter;
-use Katran\Library\FileHelper;
-use Intervention\Image\ImageManagerStatic;
-use Site\Admin\Traits\BulkHelper;
+use Admin\Traits\BulkHelper;
+use Common\Model as m;
 
 /**
- * Content controller
+ * Page controller
  */
-class Content extends Controller
+class Page extends Controller
 {
     use BulkHelper;
 
@@ -46,10 +46,10 @@ class Content extends Controller
     public function listAction(Request $request)
     {
         // set menu item
-        Helper::_menu(['content', 'Страницы']);
+        Helper::_menu(['page', 'Страницы']);
 
-        $view = new View('./content/list.php');
-        $dbPages = Db::getModel('Site\Visitor\Model\Pages');
+        $view = new View('./page/list.php');
+        $dbPages = Db::getModel(new m\Pages);
 
         $url = new Url();
         $sorter = new Sorter($url);
@@ -57,7 +57,7 @@ class Content extends Controller
         $sorter->init(array('id' => 'desc'));
 
         $where = [];
-        $search = trim($request->getString('search'));
+        $search = trim($request->get('search'));
         $where[] = ['CONCAT(title, descr, url)', 'LIKE', $search];
 
         $rows = $dbPages->findByFull($where, $pager, $sorter);
@@ -66,6 +66,7 @@ class Content extends Controller
         $view->setVar('rows', $rows);
         $view->setVar('sorter', $sorter);
         $view->setVar('pager', $pager);
+        $view->setVar('dbPages', $dbPages);
         return $view;
     }
 
@@ -80,14 +81,15 @@ class Content extends Controller
     public function viewAction(Request $request)
     {
         // set menu item
-        Helper::_menu(['content', 'Страницы']);
+        Helper::_menu(['page', 'Страницы']);
 
-        $view = new View('./content/view.php');
-        $dbPages = Db::getModel('Site\Visitor\Model\Pages');
+        $view = new View('./page/view.php');
+        $dbPages = Db::getModel(new m\Pages);
 
         $row = $dbPages->find($request->getInt('id'));
 
         $view->setVar('row', $row);
+        $view->setVar('dbPages', $dbPages);
         return $view;
     }
 
@@ -101,6 +103,8 @@ class Content extends Controller
      */
     public function saveAction(Request $request)
     {
+        $dbPages = Db::getModel(new m\Pages);
+
         $id   = $request->getInt('id');
         $data = $request->getArray('data');
 
@@ -108,8 +112,6 @@ class Content extends Controller
         $val->setFields($data);
         $val->setRules('url',    'Url', 'trim|required|max_length[250]');
         $val->setRules('title',  'Название страницы', 'trim|required|max_length[250]');
-        // $val->setRules('descr',  'Краткое описание страницы', 'trim|required|max_length[2000]');
-        // $val->setRules('html',   'Полное описание страницы', 'trim|required|max_length[20000]');
         $val->setRules('status', 'Статус', 'trim|required');
 
         $errors = array();
@@ -117,29 +119,29 @@ class Content extends Controller
             // only english symbols
             $data['url'] = Helper::_slug(trim($data['url']));
 
-            $dbPages = Db::getModel('Site\Visitor\Model\Pages');
             $article = $dbPages->find($data['url'], 'url');
-            if(isset($article['id']) && ($article['id'] != $id))
+            if(isset($article['id']) && ($article['id'] !== $id))
                 $errors[] = 'Страница с таким `Url` уже существует.';
             else{             
 
                 // update or create new row in Db
-                if($request->getString('id') == 'new'){
+                if($request->get('id') === 'new'){
                     $data['cdate'] = date('Y-m-d H:i:s');
                     $id = $dbPages->insert($data);
                 }
                 else
                     $dbPages->update($data, $id);
 
-                $this->forward('/admin/?controller=content&action=list', array(), Helper::_msg('ok'));
+                $this->forward('/admin/?controller=page&action=list', array(), Helper::_msg('ok'));
             }
         }
 
         $errors = array_merge($errors, $val->getErrors());
-        $data['id'] = $request->getString('id');
+        $data['id'] = $request->get('id');
 
-        $view = new View('./content/view.php');
+        $view = new View('./page/view.php');
         $view->setVar('row', $data);
+        $view->setVar('dbPages', $dbPages);
 
         // add errors into Session
         $this->addSessionError($errors);

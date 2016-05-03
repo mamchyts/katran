@@ -2,20 +2,20 @@
 /**
  * The file contains class Account()
  */
-namespace Site\Admin\Controller;
+namespace Admin\Controller;
 
 use Katran\Controller;
-use Katran\Request;
 use Katran\View;
 use Katran\Helper;
 use Katran\Database\Db;
 use Katran\Url;
 use Katran\Secure;
+use Katran\Request;
 use Katran\Library\Validator;
 use Katran\Library\Pager;
 use Katran\Library\Sorter;
-use Katran\Library\Mailer;
-use Site\Admin\Traits\BulkHelper;
+use Admin\Traits\BulkHelper;
+use Admin\Model as m;
 
 /**
  * Account controller
@@ -33,7 +33,7 @@ class Account extends Controller
      */
     public function loginAction(Request $request)
     {
-        $view = new View('login_view.php');
+        $view = new View('./account/login.php');
         return $view;
     }
 
@@ -47,15 +47,16 @@ class Account extends Controller
      */
     public function doLoginAction(Request $request)
     {
-        $dbAccounts = Db::getModel('Site\Visitor\Model\Accounts');
+        $dbAccounts = Db::getModel(new m\Accounts);
         $val = new Validator();
         $val->setFields($request);
         $val->setRules('data[login]', 'Логин',  'trim|required');
         $val->setRules('data[pass]',  'Пароль', 'required');
 
+        $errors = [];
         if($val->run()){
-            $data = $request->getArray('data');
 
+            $data = $request->getArray('data');
             $where = [
                 ['login', '=', $data['login']],
                 ['area', '=', 'admin'],
@@ -68,7 +69,7 @@ class Account extends Controller
                 $errors = ['data[login]' => Helper::_msg('login_error')];
             }
             else{
-                if($row[0]['status'] != 'active'){
+                if($row[0]['status'] != $dbAccounts::STATUS_ACTIVE){
                     $data = [];
                     $errors = ['data[login]' => Helper::_msg('blocked_account')];
                 }
@@ -76,9 +77,7 @@ class Account extends Controller
                     // set session
                     $_SESSION['admin'] = $row[0];
                     unset($_SESSION['admin']['pass']);
-
                     $data = $_SESSION['admin'];
-                    $errors = [];
                 }
             }
         }
@@ -87,15 +86,7 @@ class Account extends Controller
             $errors = $val->getErrors(true);
         }
 
-        $res = [
-            'data' => $data,
-            'errors' => $errors,
-        ];
-
-        if($request->isXMLHttpRequest())
-            return $this->ajaxResponse($res);
-        else
-            $this->forward('/admin', $errors, empty($errors)?Helper::_msg('ok'):false);
+        $this->forward('/admin', $errors, empty($errors)?Helper::_msg('ok'):false);
     }
 
 
@@ -110,7 +101,7 @@ class Account extends Controller
     {
         // set session
         unset($_SESSION['admin']);
-        $this->forward('/admin', [], Helper::_msg('ok'));
+        $this->forward('/admin', null, Helper::_msg('ok'));
     }
 
 
@@ -126,15 +117,12 @@ class Account extends Controller
         // set menu item
         Helper::_menu(['stat', 'Главная']);
 
-        $view = new View('./admin_stat.php');
+        $view = new View('./account/statistics.php');
 
-        $dbPages = Db::getModel('Site\Visitor\Model\Pages');
-        $dbAccounts = Db::getModel('Site\Visitor\Model\Accounts');
+        $dbAccounts = Db::getModel(new m\Accounts);
 
-        $view->setVar('pages', $dbPages->countBy());
-        $view->setVar('pagesActive', $dbPages->countBy([['status', '=', 'active']]));
         $view->setVar('users', $dbAccounts->countBy());
-        $view->setVar('usersActive', $dbAccounts->countBy([['status', '=', 'active']]));
+        $view->setVar('usersActive', $dbAccounts->countBy([['status', '=', $dbAccounts::STATUS_ACTIVE]]));
         return $view;
     }
 
@@ -152,7 +140,7 @@ class Account extends Controller
         Helper::_menu(['account', 'Пользователи']);
 
         $view = new View('./account/list.php');
-        $dbAccounts = Db::getModel('Site\Visitor\Model\Accounts');
+        $dbAccounts = Db::getModel(new m\Accounts);
 
         $url = new Url();
         $sorter = new Sorter($url);
@@ -160,8 +148,8 @@ class Account extends Controller
         $sorter->init(array('id' => 'desc'));
 
         $where = [];
-        $search = trim($request->getString('search'));
-        if($search)
+        $search = $request->get('search', '');
+        if(!empty($search))
             $where[] = ['CONCAT(name, login, tel, note)', 'LIKE', $search];
 
         $rows = $dbAccounts->findByFull($where, $pager, $sorter);
@@ -170,6 +158,7 @@ class Account extends Controller
         $view->setVar('rows', $rows);
         $view->setVar('sorter', $sorter);
         $view->setVar('pager', $pager);
+        $view->setVar('dbAccounts', $dbAccounts);
         return $view;
     }
 
@@ -187,9 +176,12 @@ class Account extends Controller
         Helper::_menu(['account', 'Пользователи']);
 
         $view = new View('./account/view.php');
-        $dbAccounts = Db::getModel('Site\Visitor\Model\Accounts');
+        $dbAccounts = Db::getModel(new m\Accounts);
+
         $row = $dbAccounts->find($request->getInt('id'));
+
         $view->setVar('row', $row);
+        $view->setVar('dbAccounts', $dbAccounts);
         return $view;
     }
 
@@ -222,8 +214,8 @@ class Account extends Controller
         }
 
         $errors = [];
+        $dbAccounts = Db::getModel(new m\Accounts);
         if($val->run()){
-            $dbAccounts = Db::getModel('Site\Visitor\Model\Accounts');
             $user = $dbAccounts->find($data['login'], 'login');
 
             if(isset($user['id']) && (intval($user['id']) !== $id))
@@ -248,7 +240,7 @@ class Account extends Controller
         }
 
         // add errors into Session
-        $this->addSessionError(array_merge($val->getErrors(), $errors));
+        $this->addSessionErrors(array_merge($val->getErrors(), $errors));
 
         // set menu item
         Helper::_menu(['account', 'Пользователи']);
@@ -256,6 +248,7 @@ class Account extends Controller
         $view = new View('./account/view.php');
         $data['id'] = $id;
         $view->setVar('row', $data);
+        $view->setVar('dbAccounts', $dbAccounts);
         return $view;
     }
 }
