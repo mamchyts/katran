@@ -34,7 +34,7 @@ $config['log_path']          = $config['path'].'/app/logs';
 $config['log']               = $config['log_path'].'/'.date('Y_m_d').'.log';
 $config['error_log']         = $config['log_path'].'/errors/'.date('Y_m_d').'.log';
 $config['mail_log']          = $config['log_path'].'/mails/'.date('Y_m_d').'.log';
-$config['send_bug_to_email'] = 'mamchyts@gmail.com';
+$config['send_bug_to_email'] = '@gmail.com';
 
 
 /**
@@ -61,7 +61,7 @@ $config['db']['charset'] = 'UTF8';
 /**
  * Mail setting
  */
-$config['mail']['return_path']      = 'esphpdev@gmail.com';
+$config['mail']['return_path']      = '@gmail.com';
 $config['mail']['return_path_name'] = 'No repty';
 $config['mail']['smtp'] = array(
     'host'      => 'smtp.gmail.com',
@@ -69,7 +69,7 @@ $config['mail']['smtp'] = array(
     'helo'      => $config['domain'],
     'auth'      => true,
     'secure'    => 'tls',
-    'user'      => 'esphpdev@gmail.com',
+    'user'      => '@gmail.com',
     'pass'      => '',
     'timeout'   => 5,
 );
